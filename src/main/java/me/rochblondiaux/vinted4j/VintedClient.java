@@ -5,9 +5,9 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.log4j.Log4j2;
 import me.rochblondiaux.vinted4j.exceptions.ExceptionallyHandler;
-import me.rochblondiaux.vinted4j.factory.PostRequestFactory;
+import me.rochblondiaux.vinted4j.factory.RequestFactory;
 import me.rochblondiaux.vinted4j.http.ResponseHandler;
-import me.rochblondiaux.vinted4j.http.request.PostRequest;
+import me.rochblondiaux.vinted4j.http.request.VintedRequest;
 import me.rochblondiaux.vinted4j.http.request.authentification.ChallengeRequest;
 import me.rochblondiaux.vinted4j.http.request.authentification.OAuthTokenRequest;
 import me.rochblondiaux.vinted4j.http.response.VintedResponse;
@@ -15,6 +15,8 @@ import me.rochblondiaux.vinted4j.http.response.authentification.ChallengeRespons
 import me.rochblondiaux.vinted4j.http.response.authentification.OAuthTokenResponse;
 import me.rochblondiaux.vinted4j.model.OAuthToken;
 import me.rochblondiaux.vinted4j.model.device.AndroidDevice;
+import me.rochblondiaux.vinted4j.model.user.User;
+import me.rochblondiaux.vinted4j.tasks.UserDetailsTask;
 import me.rochblondiaux.vinted4j.utils.VintedUtils;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
@@ -52,6 +54,10 @@ public class VintedClient {
     // Misc
     @Accessors(chain = true)
     private transient ExceptionallyHandler exceptionallyHandler;
+    private User user;
+
+    // Tasks
+    private final transient UserDetailsTask detailsTask;
 
     public VintedClient(String username, String password) {
         this(username, password, VintedUtils.defaultHttpClientBuilder().build());
@@ -63,6 +69,7 @@ public class VintedClient {
         this.anonId = VintedUtils.randomUuid();
         this.deviceId = VintedUtils.generateDeviceId(username, password);
         this.client = client;
+        this.detailsTask = new UserDetailsTask(this);
 
         this.exceptionallyHandler = new ExceptionallyHandler() {
             @Override
@@ -109,6 +116,7 @@ public class VintedClient {
                                             log.info("Logged in!");
                                             this.token = token;
                                             loggedIn = true;
+                                            detailsTask.start();
                                             future.complete(this);
                                         });
                             });
@@ -116,26 +124,26 @@ public class VintedClient {
         return future;
     }
 
-    public <R extends VintedResponse, T extends PostRequest<R>> CompletableFuture<R> sendRequest(T request) {
+    public <R extends VintedResponse, T extends VintedRequest<R>> CompletableFuture<R> sendRequest(T request) {
         final CompletableFuture<Pair<Response, String>> responseFuture = new CompletableFuture<>();
-        final PostRequestFactory<R, T> factory = new PostRequestFactory<>();
 
         log.info("Sending request : {}", request.url(this));
-        this.client.newCall(factory.create(this, request)).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                responseFuture.completeExceptionally(e);
-            }
+        this.client.newCall(RequestFactory.get(this, request))
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        responseFuture.completeExceptionally(e);
+                    }
 
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response res) throws IOException {
-                log.info("Response for {} : {}", call.request().url().toString(), res.code());
-                try (ResponseBody body = res.body()) {
-                    assert body != null;
-                    responseFuture.complete(new Pair<>(res, body.string()));
-                }
-            }
-        });
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response res) throws IOException {
+                        log.info("Response for {} : {}", call.request().url().toString(), res.code());
+                        try (ResponseBody body = res.body()) {
+                            assert body != null;
+                            responseFuture.complete(new Pair<>(res, body.string()));
+                        }
+                    }
+                });
         return responseFuture
                 .thenApply(res -> {
                     log.info("Response for {} with body (truncated) : {}",

@@ -8,7 +8,6 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PostRequestFactory<R extends VintedResponse, T extends PostRequest<R>> implements RequestFactory<R, T> {
@@ -23,12 +22,6 @@ public class PostRequestFactory<R extends VintedResponse, T extends PostRequest<
                 .url(request.url(client))
                 .post(body)
                 .addHeader("Content-Type", rawMediaType);
-
-        Optional.ofNullable(client.getToken())
-               // .filter(token -> !token.isExpired()) // TODO: fix that shit
-                .ifPresent(token -> {
-                    builder.addHeader("Authorization", "Bearer %s".formatted(token.getToken()));
-                });
 
         return addDefaultHeader(client, builder).build();
     }

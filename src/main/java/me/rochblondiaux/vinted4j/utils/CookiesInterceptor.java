@@ -24,7 +24,6 @@ public class CookiesInterceptor implements Interceptor {
                         if (parts.length == 2) {
                             String key = parts[0].trim();
                             String value = parts[1].trim();
-                            // TODO: do my things
 
                             switch (key) {
                                 case "anon_id" -> VintedClient.get().setAnonId(value);
