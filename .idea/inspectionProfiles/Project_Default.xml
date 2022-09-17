@@ -1,0 +1,22 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="IncorrectHttpHeaderInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="customHeaders">
+        <set>
+          <option value="X-IG-Bandwidth-TotalTime-MS" />
+          <option value="x-device-model" />
+          <option value="x-os-version" />
+          <option value="x-platform" />
+          <option value="x-screen-height" />
+          <option value="x-screen-width" />
+          <option value="x-portal" />
+          <option value="x-device-uuid" />
+          <option value="x-anon-id" />
+          <option value="x-local-time" />
+          <option value="x-app-version" />
+        </set>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
