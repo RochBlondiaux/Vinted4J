@@ -8,7 +8,7 @@ import java.util.ArrayList;
 @Data
 public class Photo {
 
-    private int id;
+    private long id;
     private int width;
     private int height;
     @JsonProperty("temp_uuid")
@@ -29,6 +29,8 @@ public class Photo {
     private String fullSizeUrl;
     @JsonProperty("isHidden")
     private boolean hidden;
+    @JsonProperty("image_no")
+    private int imageNo;
 
     @Data
     public static class HighResolution {
