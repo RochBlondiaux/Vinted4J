@@ -14,28 +14,8 @@ public class OAuthTokenResponse extends VintedResponse {
     private String scope;
     @JsonProperty("refresh_token")
     private String refreshToken;
-    @JsonProperty("expiresIn")
+    @JsonProperty("expires_in")
     private long expiresIn;
     @JsonProperty("created_at")
     private long createdAt;
-
-    /* Error */
-    private String error;
-    @JsonProperty("error_description")
-    private String errorDescription;
-    private int code;
-    private String message;
-
-
-    public void print() {
-        System.out.println("==================================");
-        System.out.println("access_token: " + accessToken);
-        System.out.println("token_type: " + tokenType);
-        System.out.println("scope: " + scope);
-        System.out.println("refresh_token: " + refreshToken);
-        System.out.println("expiresIn: " + expiresIn);
-        System.out.println("created_at: " + createdAt);
-        System.out.println("==================================\n\n");
-    }
-
 }

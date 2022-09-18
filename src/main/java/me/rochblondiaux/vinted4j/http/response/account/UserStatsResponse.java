@@ -2,10 +2,10 @@ package me.rochblondiaux.vinted4j.http.response.account;
 
 import lombok.Data;
 import me.rochblondiaux.vinted4j.http.response.VintedResponse;
-import me.rochblondiaux.vinted4j.model.user.User;
+import me.rochblondiaux.vinted4j.model.user.UserStats;
 
 @Data
-public class UserDetailsResponse extends VintedResponse {
+public class UserStatsResponse extends VintedResponse {
 
-    private User user;
+    private UserStats stats;
 }

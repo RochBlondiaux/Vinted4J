@@ -149,7 +149,7 @@ public class VintedClient {
                     log.info("Response for {} with body (truncated) : {}",
                             res.getFirst().request().url(),
                             VintedUtils.truncate(res.getSecond()));
-                    return new ResponseHandler<>(request).parseResponse(res);
+                    return new ResponseHandler<>(request, this).parseResponse(res);
                 });
     }
 

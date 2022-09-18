@@ -8,6 +8,5 @@ public class ChallengeResponse extends VintedResponse {
 
     private String uuid;
     private boolean verified;
-    private int code;
 
 }

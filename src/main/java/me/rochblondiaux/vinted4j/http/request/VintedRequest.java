@@ -10,7 +10,7 @@ import okhttp3.HttpUrl;
 @Log4j2
 public abstract class VintedRequest<R extends VintedResponse> {
 
-    public abstract String endpoint();
+    public abstract String endpoint(VintedClient client);
 
     public abstract Class<R> responseType();
 
@@ -27,6 +27,6 @@ public abstract class VintedRequest<R extends VintedResponse> {
     }
 
     public HttpUrl url(VintedClient client) {
-        return HttpUrl.parse(baseApiUrl() + apiPath() + endpoint() + getQueryString(client));
+        return HttpUrl.parse(baseApiUrl() + apiPath() + endpoint(client) + getQueryString(client));
     }
 }

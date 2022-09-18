@@ -19,5 +19,4 @@ public class SearchResponse extends VintedResponse {
     @JsonProperty("search_tracking_params")
     private SearchTrackingParams searchTrackingParams;
     private Pagination pagination;
-    private int code;
 }

@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NonNull;
 import me.rochblondiaux.vinted4j.http.response.authentification.OAuthTokenResponse;
 
+import java.time.Instant;
+
 @Data
 public class OAuthToken {
 
@@ -24,6 +26,6 @@ public class OAuthToken {
     }
 
     public boolean isExpired() {
-        return System.currentTimeMillis() >= (createdAt + expiresIn);
+        return Instant.now().getEpochSecond() >= (createdAt + expiresIn);
     }
 }

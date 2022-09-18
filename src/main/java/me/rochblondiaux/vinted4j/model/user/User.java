@@ -190,7 +190,7 @@ public class User {
     @JsonProperty("restricted_by_balance_activation")
     private boolean restrictedByBalanceActivation;
     @JsonProperty("accepted_pay_in_methods")
-    private ArrayList<AcceptedPayInMethod> acceptedPaymentsMethods;
+    private ArrayList<PaymentMethod> acceptedPaymentsMethods;
     private String localization;
 
 }

@@ -14,7 +14,7 @@ public class OAuthTokenRequest extends PostRequest<OAuthTokenResponse> {
     private final OAuthTokenPayload payload;
 
     @Override
-    public String endpoint() {
+    public String endpoint(VintedClient client) {
         return "oauth/token";
     }
 

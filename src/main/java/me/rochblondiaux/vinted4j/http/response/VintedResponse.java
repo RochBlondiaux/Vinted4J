@@ -1,6 +1,7 @@
 package me.rochblondiaux.vinted4j.http.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import me.rochblondiaux.vinted4j.model.VintedBaseModel;
 
@@ -10,12 +11,9 @@ public class VintedResponse extends VintedBaseModel {
     private String status;
     @JsonIgnore
     private int statusCode;
+    private String error;
+    @JsonProperty("error_description")
+    private String errorDescription;
     private String message;
-    private boolean spam;
-    private boolean lock;
-    private String feedback_title;
-    private String feedback_message;
-    private String error_type;
-    private String checkpoint_url;
-
+    private int code;
 }

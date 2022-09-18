@@ -18,6 +18,7 @@ public class Vinted4JLauncher {
                 })
                 .thenAccept(client1 -> {
                     System.out.println("Logged in!");
+
                     System.out.println("Searching for 'nike'...");
                     long start = System.currentTimeMillis();
                     client1.sendRequest(new SearchRequest(new Search.Builder()

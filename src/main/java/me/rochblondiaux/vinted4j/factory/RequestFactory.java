@@ -18,7 +18,7 @@ public interface RequestFactory<R extends VintedResponse, T extends VintedReques
         final AndroidDevice device = client.getDevice();
 
         Optional.ofNullable(client.getToken())
-                // .filter(token -> !token.isExpired()) // TODO: fix that shit
+                .filter(token -> !token.isExpired())
                 .ifPresent(token -> {
                     builder.addHeader("Authorization", "Bearer %s".formatted(token.getToken()));
                 });
@@ -39,7 +39,8 @@ public interface RequestFactory<R extends VintedResponse, T extends VintedReques
 
     RequestFactory<?, VintedRequest<?>>[] FACTORIES = new RequestFactory[]{
             new PostRequestFactory(),
-            new GetRequestFactory()
+            new GetRequestFactory(),
+            new DeleteRequestFactory()
     };
 
     static Request get(VintedClient client, VintedRequest<?> request) {

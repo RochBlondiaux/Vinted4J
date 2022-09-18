@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class AcceptedPayInMethod {
+public class PaymentMethod {
 
     private int id;
     private String code;

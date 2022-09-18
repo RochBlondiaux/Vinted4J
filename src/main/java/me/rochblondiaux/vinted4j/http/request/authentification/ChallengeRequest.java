@@ -22,7 +22,7 @@ public class ChallengeRequest extends PostRequest<ChallengeResponse> {
     }
 
     @Override
-    public String endpoint() {
+    public String endpoint(VintedClient client) {
         return "captchas";
     }
 
