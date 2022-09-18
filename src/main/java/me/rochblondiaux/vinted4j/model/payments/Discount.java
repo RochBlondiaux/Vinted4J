@@ -1,9 +1,10 @@
-package me.rochblondiaux.vinted4j.model.user;
+package me.rochblondiaux.vinted4j.model.payments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,8 +25,7 @@ public class Discount {
         @JsonProperty("minimal_item_count")
         private int minimalItem;
         private String fraction;
-        private List<Discount> discounts;
-
+        private List<Discount> discounts = new ArrayList<>();
     }
 
 }

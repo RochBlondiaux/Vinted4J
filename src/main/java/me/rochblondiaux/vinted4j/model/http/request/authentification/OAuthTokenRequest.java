@@ -6,6 +6,7 @@ import me.rochblondiaux.vinted4j.model.http.VintedBaseModel;
 import me.rochblondiaux.vinted4j.model.http.request.method.POSTRequest;
 import me.rochblondiaux.vinted4j.model.http.request.PayloadRequest;
 import me.rochblondiaux.vinted4j.model.http.response.authentification.OAuthTokenResponse;
+import me.rochblondiaux.vinted4j.model.session.OAuthToken;
 
 @RequiredArgsConstructor
 public class OAuthTokenRequest extends PayloadRequest<OAuthTokenResponse> implements POSTRequest<OAuthTokenResponse> {
@@ -50,6 +51,18 @@ public class OAuthTokenRequest extends PayloadRequest<OAuthTokenResponse> implem
             this.grant_type = "password";
             this.client_id = "android";
             this.scope = "public";
+        }
+    }
+
+    @Data
+    public static class RefreshPayload extends GuestPayload {
+
+        @NonNull
+        private String refresh_token;
+
+        public RefreshPayload(OAuthToken token) {
+            this.grant_type = "refresh_token";
+            this.refresh_token = token.refreshToken();
         }
     }
 

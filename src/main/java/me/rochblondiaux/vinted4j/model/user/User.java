@@ -2,7 +2,9 @@ package me.rochblondiaux.vinted4j.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import okhttp3.Address;
+import me.rochblondiaux.vinted4j.model.media.Photo;
+import me.rochblondiaux.vinted4j.model.payments.Discount;
+import me.rochblondiaux.vinted4j.model.payments.PaymentMethod;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -124,7 +126,7 @@ public class User {
     @JsonProperty("contacts_permission")
     private Object contactsPermission;
     private Object contacts;
-    //    private Photo photo;
+    private Photo photo;
     private String path;
     @JsonProperty("is_god")
     private boolean god;
@@ -137,8 +139,8 @@ public class User {
     private boolean postBigForumPhotosEnabled;
     @JsonProperty("allow_direct_messaging")
     private boolean directMessagingEnabled;
-    //   @JsonProperty("bundle_discount")
-    //   private Discount.Bundle bundleDiscount;
+    @JsonProperty("bundle_discount")
+    private Discount.Bundle bundleDiscount;
     @JsonProperty("donation_configuration")
     private Object donationConfiguration;
     private Object fundraiser;
@@ -152,7 +154,7 @@ public class User {
     @JsonProperty("total_items_count")
     private int totalItemsCount;
     private String about;
-    //  private Verification verification;
+    private Verification verification;
     @JsonProperty("closet_promoted_until")
     private Date closetPromotedUntil;
     @JsonProperty("avg_response_time")
@@ -206,8 +208,8 @@ public class User {
     private boolean restrictedByUnconfirmedRealName;
     @JsonProperty("restricted_by_balance_activation")
     private boolean restrictedByBalanceActivation;
-    //  @JsonProperty("accepted_pay_in_methods")
-    //  private ArrayList<PaymentMethod> acceptedPaymentsMethods;
+    @JsonProperty("accepted_pay_in_methods")
+    private ArrayList<PaymentMethod> acceptedPaymentsMethods;
     private String localization;
 
 }

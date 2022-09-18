@@ -11,11 +11,11 @@ import me.rochblondiaux.vinted4j.utils.VintedUtils;
 public class VintedSession {
 
     @Setter
-    private OAuthToken token;
+    private volatile OAuthToken token;
     private String deviceId;
     @Setter
     private String anonymousId;
-    private User user;
+    private volatile User user;
     private boolean loggedIn;
 
     public VintedSession(String username, String password) {

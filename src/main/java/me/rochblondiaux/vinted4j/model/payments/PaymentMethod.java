@@ -1,4 +1,4 @@
-package me.rochblondiaux.vinted4j.model.user;
+package me.rochblondiaux.vinted4j.model.payments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

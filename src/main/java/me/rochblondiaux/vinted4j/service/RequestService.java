@@ -6,6 +6,7 @@ import me.rochblondiaux.vinted4j.VintedAPI;
 import me.rochblondiaux.vinted4j.factory.request.RequestFactory;
 import me.rochblondiaux.vinted4j.factory.response.ResponseFactory;
 import me.rochblondiaux.vinted4j.model.http.request.VintedRequest;
+import me.rochblondiaux.vinted4j.model.http.response.EmptyResponse;
 import me.rochblondiaux.vinted4j.model.http.response.VintedResponse;
 import me.rochblondiaux.vinted4j.utils.VintedUtils;
 import okhttp3.*;
@@ -23,7 +24,8 @@ public record RequestService(VintedAPI api) {
         final CompletableFuture<Pair<Response, String>> responseFuture = new CompletableFuture<>();
 
         log.info("Sending request : {}", request.url(api));
-        api.getHttpClient().newCall(RequestFactory.make(api, request))
+        api.getHttpClient()
+                .newCall(RequestFactory.make(api, request))
                 .enqueue(new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -34,13 +36,18 @@ public record RequestService(VintedAPI api) {
                     public void onResponse(@NotNull Call call, @NotNull Response res) throws IOException {
                         log.info("Response for {} : {}", call.request().url().toString(), res.code());
                         try (ResponseBody body = res.body()) {
-                            assert body != null;
-                            responseFuture.complete(new Pair<>(res, body.string()));
+                            responseFuture.complete(new Pair<>(res, body == null ? null : body.string()));
                         }
                     }
                 });
         return responseFuture
                 .thenApply(res -> {
+                    if (request.responseType().equals(EmptyResponse.class) || res.getSecond() == null) {
+                        EmptyResponse emptyResponse = new EmptyResponse();
+                        emptyResponse.setStatusCode(res.getFirst().code());
+                        log.debug("Skipping response parsing for {}{}", request.apiPath(), request.endpoint(api));
+                        return (R) emptyResponse;
+                    }
                     log.info("Response for {} with body (truncated) : {}",
                             res.getFirst().request().url(),
                             VintedUtils.truncate(res.getSecond()));
