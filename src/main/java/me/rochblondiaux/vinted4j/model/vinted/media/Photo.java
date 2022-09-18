@@ -1,4 +1,4 @@
-package me.rochblondiaux.vinted4j.model.media;
+package me.rochblondiaux.vinted4j.model.vinted.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

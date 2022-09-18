@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.log4j.Log4j2;
+import me.rochblondiaux.vinted4j.actions.VintedClientActions;
 import me.rochblondiaux.vinted4j.exceptions.ExceptionallyHandler;
 import me.rochblondiaux.vinted4j.model.device.AndroidDevice;
 import me.rochblondiaux.vinted4j.model.events.authentification.LoginEvent;
@@ -21,10 +22,10 @@ import me.rochblondiaux.vinted4j.model.http.response.authentification.OAuthToken
 import me.rochblondiaux.vinted4j.model.http.response.user.UserInformationResponse;
 import me.rochblondiaux.vinted4j.model.session.OAuthToken;
 import me.rochblondiaux.vinted4j.model.session.VintedSession;
-import me.rochblondiaux.vinted4j.model.user.User;
+import me.rochblondiaux.vinted4j.model.vinted.user.User;
 import me.rochblondiaux.vinted4j.service.RequestService;
 import me.rochblondiaux.vinted4j.task.OAuthRefreshTask;
-import me.rochblondiaux.vinted4j.task.UserDetailsTask;
+import me.rochblondiaux.vinted4j.task.UserInformationTask;
 import me.rochblondiaux.vinted4j.utils.CookiesInterceptor;
 import me.rochblondiaux.vinted4j.utils.VintedUtils;
 import okhttp3.OkHttpClient;
@@ -37,6 +38,8 @@ import java.util.concurrent.CompletionException;
 @Data
 @Log4j2
 public class VintedAPI {
+
+    private static VintedAPI instance;
 
     // Credentials
     private final String username;
@@ -56,6 +59,10 @@ public class VintedAPI {
     private final RequestService requestService;
     private final EventManager eventManager;
 
+    // Actions
+    @Accessors(fluent = true)
+    private final VintedClientActions actions;
+
     private VintedAPI(String username, String password, OkHttpClient httpClient, AndroidDevice device) {
         this.username = username;
         this.password = password;
@@ -68,6 +75,8 @@ public class VintedAPI {
         this.eventManager = new EventManager();
         this.eventManager.autoDiscovery();
         this.requestService = new RequestService(this);
+        this.actions = new VintedClientActions(this);
+
         this.exceptionallyHandler = new ExceptionallyHandler() {
             @Override
             public <T> T handle(Throwable throwable, Class<T> type) {
@@ -77,13 +86,14 @@ public class VintedAPI {
 
         // Runtime
         this.startRuntime();
+        instance = this;
     }
 
     /**
      * Start vinted api runtime;
      */
     private void startRuntime() {
-        new UserDetailsTask(this).start();
+        new UserInformationTask(this).start();
         new OAuthRefreshTask(this).start();
     }
 
@@ -200,6 +210,11 @@ public class VintedAPI {
             Objects.requireNonNull(username, "Username cannot be null");
             Objects.requireNonNull(password, "Password cannot be null");
 
+            if (instance != null) {
+                log.warn("VintedAPI instance already exists! Returning the existing instance...");
+                return instance;
+            }
+
             return new VintedAPI(username,
                     password,
                     Optional.ofNullable(httpClient).orElseGet(() -> VintedUtils.defaultHttpClientBuilder().build()),
@@ -207,4 +222,7 @@ public class VintedAPI {
         }
     }
 
+    public static VintedAPI get() {
+        return instance;
+    }
 }

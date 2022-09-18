@@ -8,10 +8,10 @@ import me.rochblondiaux.vinted4j.model.http.response.user.UserInformationRespons
 import java.util.concurrent.TimeUnit;
 
 @Log4j2
-public class UserDetailsTask extends RecurrentTask {
+public class UserInformationTask extends RecurrentTask {
 
-    public UserDetailsTask(VintedAPI api) {
-        super(api, 0, 1, TimeUnit.MINUTES);
+    public UserInformationTask(VintedAPI api) {
+        super(api, 0, 5, TimeUnit.MINUTES);
     }
 
     @Override

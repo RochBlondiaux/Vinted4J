@@ -1,16 +1,25 @@
-package me.rochblondiaux.vinted4j.model.user;
+package me.rochblondiaux.vinted4j.model.vinted.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import me.rochblondiaux.vinted4j.model.media.Photo;
-import me.rochblondiaux.vinted4j.model.payments.Discount;
-import me.rochblondiaux.vinted4j.model.payments.PaymentMethod;
+import lombok.experimental.Delegate;
+import me.rochblondiaux.vinted4j.VintedAPI;
+import me.rochblondiaux.vinted4j.actions.user.UserAction;
+import me.rochblondiaux.vinted4j.model.vinted.media.Photo;
+import me.rochblondiaux.vinted4j.model.vinted.payments.Discount;
+import me.rochblondiaux.vinted4j.model.vinted.payments.PaymentMethod;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 @Data
 public class User {
+
+    @Delegate
+    private final UserAction actions;
+    public User() {
+        this.actions = new UserAction(VintedAPI.get(), this);
+    }
 
     private long id;
 

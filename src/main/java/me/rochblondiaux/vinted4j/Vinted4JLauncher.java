@@ -1,8 +1,6 @@
 package me.rochblondiaux.vinted4j;
 
-import me.rochblondiaux.vinted4j.model.events.authentification.LoginEvent;
-import me.rochblondiaux.vinted4j.model.events.authentification.LogoutEvent;
-import me.rochblondiaux.vinted4j.model.events.authentification.PreLoginEvent;
+import me.rochblondiaux.vinted4j.utils.VintedUtils;
 
 public class Vinted4JLauncher {
 
@@ -12,15 +10,7 @@ public class Vinted4JLauncher {
                 .username("iskiwix@gmail.com")
                 .password("Roch1704")
                 .build();
-        api.getEventManager()
-                .onEvent(PreLoginEvent.class, preLoginEvent -> System.out.println("PreLoginEvent"));
-        api.getEventManager()
-                .onEvent(LoginEvent.class, event -> System.out.println("Logged in as (EVENT) Result: " + event.getResult().name()));
-        api.getEventManager()
-                .onEvent(LogoutEvent.class, logoutEvent -> {
-                    System.out.println("Logged out (EVENT)");
-                    System.exit(0);
-                });
+
         api.login()
                 .exceptionally(throwable -> {
                     throwable.printStackTrace();
@@ -29,6 +19,17 @@ public class Vinted4JLauncher {
                 })
                 .thenAccept(user -> {
                     System.out.println("Logged in as " + user.getUsername());
+                    user.feedbacks()
+                            .exceptionally(throwable -> {
+                                System.out.println("Failed to get feedbacks (EXCEPTIONALLY) Result: " + throwable.getMessage());
+                                return null;
+                            })
+                            .thenAccept(feedbacks -> {
+                                feedbacks.forEach(feedback -> {
+                                    System.out.println(feedback.getContent() + " - " + feedback.getRating() + " - " + feedback.getAuthor().getUsername());
+                                });
+                            });
+                    VintedUtils.sleepSeconds(30);
                     System.out.println("Logging out...");
                     api.logout()
                             .exceptionally(throwable -> {

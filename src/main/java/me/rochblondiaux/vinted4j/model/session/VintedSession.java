@@ -3,7 +3,7 @@ package me.rochblondiaux.vinted4j.model.session;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import me.rochblondiaux.vinted4j.model.user.User;
+import me.rochblondiaux.vinted4j.model.vinted.user.User;
 import me.rochblondiaux.vinted4j.utils.VintedUtils;
 
 @Getter
