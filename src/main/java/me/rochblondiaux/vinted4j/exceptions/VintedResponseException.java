@@ -3,7 +3,7 @@ package me.rochblondiaux.vinted4j.exceptions;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
-import me.rochblondiaux.vinted4j.http.response.VintedResponse;
+import me.rochblondiaux.vinted4j.model.http.response.VintedResponse;
 import me.rochblondiaux.vinted4j.utils.VintedUtils;
 
 import java.io.IOException;

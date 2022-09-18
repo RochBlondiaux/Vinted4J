@@ -1,13 +1,17 @@
 package me.rochblondiaux.vinted4j.utils;
 
-import me.rochblondiaux.vinted4j.VintedClient;
+import lombok.RequiredArgsConstructor;
+import me.rochblondiaux.vinted4j.VintedAPI;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+@RequiredArgsConstructor
 public class CookiesInterceptor implements Interceptor {
+
+    private final VintedAPI api;
 
     @NotNull
     @Override
@@ -26,7 +30,7 @@ public class CookiesInterceptor implements Interceptor {
                             String value = parts[1].trim();
 
                             switch (key) {
-                                case "anon_id" -> VintedClient.get().setAnonId(value);
+                                case "anon_id" -> api.getSession().anonymousId(value);
                             }
                         }
                     }

@@ -1,38 +1,25 @@
 package me.rochblondiaux.vinted4j;
 
-import me.rochblondiaux.vinted4j.http.request.catalog.SearchRequest;
-import me.rochblondiaux.vinted4j.model.catalog.Search;
+import me.rochblondiaux.vinted4j.model.events.authentification.LoginEvent;
+import me.rochblondiaux.vinted4j.model.events.authentification.PreLoginEvent;
 
 public class Vinted4JLauncher {
 
     public static void main(String[] args) {
         System.out.println("Starting....");
-        new VintedClient.Builder()
+        VintedAPI api = new VintedAPI.Builder()
                 .username("iskiwix@gmail.com")
                 .password("Roch1704")
-                .build()
-                .login()
+                .build();
+        api.getEventManager()
+                .onEvent(PreLoginEvent.class, preLoginEvent -> System.out.println("PreLoginEvent"));
+        api.getEventManager()
+                .onEvent(LoginEvent.class, event -> System.out.println("Logged in as (EVENT) Result: " + event.getResult().name()));
+        api.login()
                 .exceptionally(throwable -> {
-                    System.out.println("Error: " + throwable.getMessage());
+                    throwable.printStackTrace();
                     return null;
                 })
-                .thenAccept(client1 -> {
-                    System.out.println("Logged in!");
-
-                    System.out.println("Searching for 'nike'...");
-                    long start = System.currentTimeMillis();
-                    client1.sendRequest(new SearchRequest(new Search.Builder()
-                                    .query("nike")
-                                    .build()))
-                            .exceptionally(throwable -> {
-                                System.out.println("Error: " + throwable.getMessage());
-                                return null;
-                            })
-                            .thenAccept(searchResponse -> {
-                                System.out.println("Found " + searchResponse.getItems().size() + " items in " + (System.currentTimeMillis() - start) + "ms !");
-                            });
-                });
-
-
+                .thenAccept(user -> System.out.println("Logged in as " + user.getUsername()));
     }
 }

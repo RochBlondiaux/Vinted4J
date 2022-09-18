@@ -196,8 +196,7 @@ public class VintedUtils {
 
     public static OkHttpClient.Builder defaultHttpClientBuilder() {
         return new OkHttpClient.Builder()
-                .cookieJar(new SerializableCookieJar())
-                .addInterceptor(new CookiesInterceptor());
+                .cookieJar(new SerializableCookieJar());
     }
 
     public static String randomUuid() {

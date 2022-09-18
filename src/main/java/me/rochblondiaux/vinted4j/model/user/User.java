@@ -2,6 +2,7 @@ package me.rochblondiaux.vinted4j.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import okhttp3.Address;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,20 +11,26 @@ import java.util.Date;
 public class User {
 
     private long id;
+
+    // Personal information
     @JsonProperty("anon_id")
     private String anonymousId;
     @JsonProperty("login")
     private String username;
     @JsonProperty("real_name")
     private String fullName;
+    private String email;
+    private String gender;
+    private Date birthday;
+    private String currency;
+
+    // Permissions
     @JsonProperty("real_name_permission")
     private int realNamePermission;
     @JsonProperty("birthday_permission")
     private int birthdayPermission;
-    private String email;
-    private Date birthday;
-    private String gender;
-    private String currency;
+
+    // Items
     @JsonProperty("item_count")
     private int itemCount;
     @JsonProperty("msg_template_count")
@@ -32,24 +39,31 @@ public class User {
     private int givenItem;
     @JsonProperty("taken_item_count")
     private int takenItem;
+
+    // Forum
     @JsonProperty("favourite_topic_count")
     private int favouriteTopic;
     @JsonProperty("forum_msg_count")
     private int forumMsg;
     @JsonProperty("forum_topic_count")
     private int forumTopic;
+
+    // Relationships
     @JsonProperty("followers_count")
     private int followers;
     @JsonProperty("following_count")
     private int following;
     @JsonProperty("following_brands_count")
     private int followingBrands;
+
+    // Feedbacks
     @JsonProperty("positive_feedback_count")
     private int positiveFeedback;
     @JsonProperty("neutral_feedback_count")
     private int neutralFeedback;
     @JsonProperty("negative_feedback_count")
     private int negativeFeedback;
+
     @JsonProperty("meeting_transaction_count")
     private int meetingTransaction;
     @JsonProperty("account_status")
@@ -60,10 +74,13 @@ public class User {
     private int feedback_reputation;
     @JsonProperty("account_ban_date")
     private Date banDate;
+
+    // Banishment
     @JsonProperty("is_account_ban_permanent")
     private boolean banPermanently;
     @JsonProperty("is_forum_ban_permanent")
     private boolean forumBanPermanently;
+
     @JsonProperty("is_on_holiday")
     private boolean onHoliday;
     @JsonProperty("is_publish_photos_agreed")
@@ -107,7 +124,7 @@ public class User {
     @JsonProperty("contacts_permission")
     private Object contactsPermission;
     private Object contacts;
-    private Photo photo;
+    //    private Photo photo;
     private String path;
     @JsonProperty("is_god")
     private boolean god;
@@ -120,8 +137,8 @@ public class User {
     private boolean postBigForumPhotosEnabled;
     @JsonProperty("allow_direct_messaging")
     private boolean directMessagingEnabled;
-    @JsonProperty("bundle_discount")
-    private Discount.Bundle bundleDiscount;
+    //   @JsonProperty("bundle_discount")
+    //   private Discount.Bundle bundleDiscount;
     @JsonProperty("donation_configuration")
     private Object donationConfiguration;
     private Object fundraiser;
@@ -135,7 +152,7 @@ public class User {
     @JsonProperty("total_items_count")
     private int totalItemsCount;
     private String about;
-    private Verification verification;
+    //  private Verification verification;
     @JsonProperty("closet_promoted_until")
     private Date closetPromotedUntil;
     @JsonProperty("avg_response_time")
@@ -189,8 +206,8 @@ public class User {
     private boolean restrictedByUnconfirmedRealName;
     @JsonProperty("restricted_by_balance_activation")
     private boolean restrictedByBalanceActivation;
-    @JsonProperty("accepted_pay_in_methods")
-    private ArrayList<PaymentMethod> acceptedPaymentsMethods;
+    //  @JsonProperty("accepted_pay_in_methods")
+    //  private ArrayList<PaymentMethod> acceptedPaymentsMethods;
     private String localization;
 
 }

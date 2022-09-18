@@ -26,6 +26,7 @@
         <!-- Dependencies versions -->
         <log4j.version>2.18.0</log4j.version>
         <jackson.version>2.13.4</jackson.version>
+        <events4j.version>0.11.0</events4j.version>
     </properties>
 
     <!-- Dependencies -->
@@ -78,6 +79,24 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+        <!-- Events4j API -->
+        <dependency>
+            <groupId>com.github.philippheuer.events4j</groupId>
+            <artifactId>events4j-api</artifactId>
+            <version>${events4j.version}</version>
+        </dependency>
+        <!-- Events4j Core -->
+        <dependency>
+            <groupId>com.github.philippheuer.events4j</groupId>
+            <artifactId>events4j-core</artifactId>
+            <version>${events4j.version}</version>
+        </dependency>
+        <!-- Events4j Simple -->
+        <dependency>
+            <groupId>com.github.philippheuer.events4j</groupId>
+            <artifactId>events4j-handler-simple</artifactId>
+            <version>${events4j.version}</version>
         </dependency>
     </dependencies>
 
